@@ -7,6 +7,10 @@ import {
   createViewWeek,
   createViewMonthGrid,
   createViewMonthAgenda,
+  createViewDay,
+  viewDay,
+  viewMonthGrid,
+  viewMonthAgenda,
 } from '@schedule-x/calendar';
 import { isPlatformBrowser } from '@angular/common';
 import '@schedule-x/theme-default/dist/calendar.css';
@@ -28,7 +32,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.calendarApp = createCalendar({
+        defaultView: viewMonthAgenda.name,
         showWeekNumbers: true,
+        isResponsive: false,
         events: [
           {
             id: '1',
@@ -45,6 +51,7 @@ export class AppComponent implements OnInit {
           },
         ],
         views: [
+          createViewDay(),
           createViewWeek(),
           createViewMonthGrid(),
           createViewMonthAgenda(),

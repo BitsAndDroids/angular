@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -7,13 +8,12 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import {CommonModule} from "@angular/common";
 
 @Component({
-    selector: 'sx-portal',
-    imports: [CommonModule],
-    templateUrl: './sx-portal.component.html',
-    encapsulation: ViewEncapsulation.None
+  selector: 'sx-portal',
+  imports: [NgTemplateOutlet],
+  templateUrl: './sx-portal.component.html',
+  encapsulation: ViewEncapsulation.None,
 })
 export class SxPortalComponent implements AfterViewInit {
   @Input() wrapperElement!: HTMLElement;
@@ -25,6 +25,17 @@ export class SxPortalComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const rootEl: HTMLElement = this.rootElRef?.nativeElement;
-    this.wrapperElement.appendChild(rootEl);
+    if (
+      this.wrapperElement instanceof HTMLElement &&
+      rootEl instanceof HTMLElement
+    ) {
+      this.wrapperElement.appendChild(rootEl);
+    } else {
+      console.error(
+        'wrapperElement or rootEl is not an HTMLElement',
+        this.wrapperElement,
+        rootEl,
+      );
+    }
   }
 }

@@ -23,7 +23,7 @@ export const randomStringId = () =>
   template: `
     <div [attr.id]="calendarElementId" class="ng-calendar-wrapper"></div>
 
-    @for (comp of customComponentsMeta; track comp) {
+    @for (comp of customComponentsMeta; track comp.props) {
       <sx-portal
         [wrapperElement]="comp.wrapperElement"
         [elementTag]="'div'"
@@ -86,18 +86,18 @@ export class CalendarComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (typeof window !== 'object') return;
-
     const calendarElement = document?.getElementById(this.calendarElementId);
     if (!(calendarElement instanceof HTMLElement)) {
       throw new Error('No calendar element found');
     }
-
     if (this.calendarApp == null) {
       return;
     }
 
     this.setCustomComponentFns();
-    this.calendarApp?.render(calendarElement);
+    setTimeout(() => {
+      this.calendarApp?.render(calendarElement);
+    }, 0);
   }
 
   private setCustomComponentFns() {
